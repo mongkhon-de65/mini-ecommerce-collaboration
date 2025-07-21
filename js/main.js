@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const productList = document.getElementById('product-list');
     const searchInput = document.getElementById('searchInput');
+    const loader = document.getElementById('loader');
     let allProducts = [];
+
+    loader.style.display = 'block';
 
     // Fetch products from JSON
     fetch('js/products.json')
@@ -9,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             allProducts = data;
             displayProducts(allProducts);
+
+            loader.style.display = 'none';
         });
 
     function displayProducts(products) {
@@ -16,10 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
         products.forEach(product => {
             const card = document.createElement('div');
             card.className = 'product-card';
+            const formattedPrice = Number(product.price).toLocaleString();
             card.innerHTML = `
                 <img src="${product.image}" alt="${product.name}">
                 <h3>${product.name}</h3>
-                <p>ราคา: ${product.price} บาท</p>
+                <p>ราคา: ${formattedPrice} บาท</p>
             `;
             productList.appendChild(card);
         });
